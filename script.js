@@ -203,12 +203,15 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 
 renderer.shadowMap.enabled = true;
 renderer.setPixelRatio(window.devicePixelRatio);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
 
 var cameraFar = 5;
 
 document.body.appendChild(renderer.domElement);
 
-// Add a camerra
+// Add a camera
 var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = cameraFar;
 camera.position.x = 0;
