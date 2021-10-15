@@ -275,12 +275,12 @@ function initColor(parent, type, mtl) {
 }
 
 // Add lights
-var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.61);
+var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.2);
 hemiLight.position.set(0, 50, 0);
 // Add hemisphere light to scene   
 scene.add(hemiLight);
 
-var dirLight = new THREE.DirectionalLight(0xffffff, 0.54);
+var dirLight = new THREE.DirectionalLight(0xffffff, 1.00);
 dirLight.position.set(-8, 12, 8);
 dirLight.castShadow = true;
 dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
