@@ -2,8 +2,6 @@
 
 Test for Three JS product configurator
 
-![Image Title](link)
-
 [Original Article on Codrops](https://tympanus.net/codrops/?p=43333)
 
 ## Credits
