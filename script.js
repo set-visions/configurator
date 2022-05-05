@@ -14,27 +14,30 @@ const colors = [
 {
   texture: 'img/wood_.jpg',
   size: [2, 2, 2],
-  shininess: 60 },
+  metalness: 0 },
 
 {
   texture: 'img/fabric_.jpg',
+  normal:'img/fabric_normal.jpg',
   size: [4, 4, 4],
-  shininess: 0 },
+  metalness: 0,
+  roughness: 0.6 },
 
 {
   texture: 'img/pattern_.jpg',
   size: [8, 8, 8],
-  shininess: 10 },
+  metalness: 10 },
 
 {
   texture: 'img/denim_.jpg',
   size: [3, 3, 3],
-  shininess: 0 },
+  metalness: 1,
+  roughness: 0.4 },
 
 {
   texture: 'img/quilt_.jpg',
   size: [6, 6, 6],
-  shininess: 0 },
+  metalness: 0 },
 
 {
   color: '131417' },
@@ -217,7 +220,7 @@ camera.position.z = cameraFar;
 camera.position.x = 0;
 
 // Initial material
-const INITIAL_MTL = new THREE.MeshPhongMaterial({ color: 0xf1f1f1, shininess: 10 });
+const INITIAL_MTL = new THREE.MeshStandardMaterial({ color: 0xf1f1f1, metalness: 0 });
 
 const INITIAL_MAP = [
 { childID: "back", mtl: INITIAL_MTL },
@@ -275,12 +278,12 @@ function initColor(parent, type, mtl) {
 }
 
 // Add lights
-var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.2);
+var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.1);
 hemiLight.position.set(0, 50, 0);
 // Add hemisphere light to scene   
 scene.add(hemiLight);
 
-var dirLight = new THREE.DirectionalLight(0xffffff, 1.00);
+var dirLight = new THREE.DirectionalLight(0xffffff, 1.30);
 dirLight.position.set(-8, 12, 8);
 dirLight.castShadow = true;
 dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
@@ -289,9 +292,9 @@ scene.add(dirLight);
 
 // Floor
 var floorGeometry = new THREE.PlaneGeometry(5000, 5000, 1, 1);
-var floorMaterial = new THREE.MeshPhongMaterial({
+var floorMaterial = new THREE.MeshStandardMaterial({
   color: 0xeeeeee,
-  shininess: 0 });
+  metalness: 0 });
 
 
 var floor = new THREE.Mesh(floorGeometry, floorMaterial);
@@ -394,6 +397,10 @@ for (const swatch of swatches) {
 function selectSwatch(e) {
   let color = colors[parseInt(e.target.dataset.key)];
   let new_mtl;
+  new_mtl = new THREE.MeshStandardMaterial({
+    color: parseInt('0x' + color.color),
+    metalness: color.metalness ? color.metalness : 0,
+    roughness:0.3});
 
   if (color.texture) {
 
@@ -403,19 +410,10 @@ function selectSwatch(e) {
     txt.wrapS = THREE.RepeatWrapping;
     txt.wrapT = THREE.RepeatWrapping;
 
-    new_mtl = new THREE.MeshPhongMaterial({
-      map: txt,
-      shininess: color.shininess ? color.shininess : 10 });
-
-  } else
-
-  {
-    new_mtl = new THREE.MeshPhongMaterial({
-      color: parseInt('0x' + color.color),
-      shininess: color.shininess ? color.shininess : 10 });
-
+    new_mtl.map=txt;
 
   }
+
 
   setMaterial(theModel, activeOption, new_mtl);
 }
