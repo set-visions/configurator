@@ -19,7 +19,7 @@
             height: 12px;
             border-radius: 50%;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-            background: #fff;
+            background: rgb(255, 255, 255);
             --min-hotspot-opacity: 0;
         }
 
@@ -77,8 +77,8 @@
 
 <body>
     <div class="demo">
-        <model-viewer id="dimension-demo" ar ar-modes="webxr" autoplay ar-scale="fixed" camera-orbit="-30deg auto auto"
-            max-camera-orbit="auto 100deg auto" shadow-intensity="1" camera-controls src="./assets/Door_Sliding.glb"
+        <model-viewer id="dimension-demo" ar ar-modes="webxr" autoplay ar-scale="fixed" ar-placement="wall" camera-orbit="-30deg auto auto"
+            max-camera-orbit="auto 100deg auto" shadow-intensity="1" camera-controls src="./assets/converted.glb"
             ios-src="./assets/Door_Sliding.usdz" alt="A 3D model of an armchair.">
             <button slot="hotspot-dot+X-Y+Z" class="dot" data-position="1 -1 1" data-normal="1 0 0"></button>
             <button slot="hotspot-dim+X-Y" class="dim" data-position="1 -1 0" data-normal="1 0 0"></button>
