@@ -77,8 +77,9 @@
 
 <body>
     <div class="demo">
-        <model-viewer id="dimension-demo" ar ar-modes="webxr" autoplay ar-scale="fixed" ar-placement="wall" camera-orbit="-30deg auto auto"
-            max-camera-orbit="auto 100deg auto" shadow-intensity="1" camera-controls touch-action="pan-y" src="./assets/converted.glb" alt="A 3D model of an armchair.">
+        <model-viewer id="dimension-demo" ar ar-modes="webxr" ar-scale="fixed" ar-placement="wall"
+            camera-orbit="-30deg auto auto" max-camera-orbit="auto 100deg auto" shadow-intensity="1" camera-controls
+            touch-action="pan-y" src="./assets/cabinet_animated.glb" alt="A 3D model of a cabinet.">
             <button slot="hotspot-dot+X-Y+Z" class="dot" data-position="1 -1 1" data-normal="1 0 0"></button>
             <button slot="hotspot-dim+X-Y" class="dim" data-position="1 -1 0" data-normal="1 0 0"></button>
             <button slot="hotspot-dot+X-Y-Z" class="dot" data-position="1 -1 -1" data-normal="1 0 0"></button>
@@ -90,6 +91,13 @@
             <button slot="hotspot-dot-X-Y-Z" class="dot" data-position="-1 -1 -1" data-normal="-1 0 0"></button>
             <button slot="hotspot-dim-X-Y" class="dim" data-position="-1 -1 0" data-normal="-1 0 0"></button>
             <button slot="hotspot-dot-X-Y+Z" class="dot" data-position="-1 -1 1" data-normal="-1 0 0"></button>
+            <button onclick="playAnimation('All Animations','once')" style="display: block;" class="dim"
+                slot="hotspot-anim" data-position="0 0 0"
+                data-normal="0 0 0">
+                <div id="annotation">
+                    <p>Animate</p>
+                </div>
+            </button>
 
             <div id="controls" class="dim">
                 <label for="show-dimensions">Show Dimensions:</label>
@@ -97,6 +105,48 @@
             </div>
         </model-viewer>
     </div>
+    <script type="text/javascript">
+        function playAnimation(animation_name, animation_type) {
+            const modelViewer = document.querySelector("model-viewer");
+            if (animation_type == 'once') {
+                modelViewer.animationName = animation_name;
+                modelViewer.currentTime = 0;
+                modelViewer.play();
+                var extremelySmallIntervalTime = 0.05;
+                var j = 0;
+                const interval = setInterval(function () {
+                    //console.log(modelViewer.currentTime);
+                    if (modelViewer.currentTime > 0 && modelViewer.currentTime < (extremelySmallIntervalTime - 0.01)) {
+                        ++j;
+                        console.log(j);      
+                        if (j > 0) {
+                            modelViewer.pause();
+                            //modelViewer.currentTime = 0;
+                            j = 0;
+                            clearInterval(interval);
+                        }
+
+                    } else if (modelViewer.currentTime == 0) {
+                        modelViewer.play();
+                    }
+                }, extremelySmallIntervalTime * 1000);
+            } else if (animation_type == 'loop') {
+                if (animation_name != '') {
+                    modelViewer.animationName = animation_name;
+                    modelViewer.play();
+                    if (modelViewer.currentTime == 1) {
+                        modelViewer.pause();
+                        modelViewer.currentTime = 0;
+                    }
+                } else {
+                    modelViewer.pause();
+                    modelViewer.currentTime = 1;
+                }
+
+            }
+        }
+    </script>
+
     <script type="module">
         const modelViewer = document.querySelector('#dimension-demo');
 
